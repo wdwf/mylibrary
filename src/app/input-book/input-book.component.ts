@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter , Output } from '@angular/core';
+import { Book } from '../card-book/book.model';
 
 @Component({
   selector: 'app-input-book',
@@ -7,13 +8,22 @@ import { Component } from '@angular/core';
 })
 export class InputBookComponent {
 
+  @Output() bookAdicionado = new EventEmitter<Book>();
+
   id: string;
   titulo: string;
   autor: string;
   Npages: string;
 
-  Cadastrar() {
-    alert("Foiiii")
+  onBookAdicionado() {
+    const book: Book = {
+     id: this.id,
+     titulo: this.titulo,
+     autor: this.autor,
+     Npages: this.Npages,
+    };
+    this.id = '';
+    this.bookAdicionado.emit(book);
   }
 
 }

@@ -1,0 +1,21 @@
+.container-all {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f8f8;
+}
+
+.card-container {
+  width: 90%;
+}
+
+app-tool-bar,
+app-header,
+app-input-book,
+app-card-book
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

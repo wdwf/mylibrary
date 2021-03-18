@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-  nameUser = "Bob";
+  nameUser = "User";
 
 }

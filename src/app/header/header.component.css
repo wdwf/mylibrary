@@ -1,0 +1,16 @@
+mat-card {
+  width: 80%;
+  margin: 25px 0;
+  background-image: linear-gradient(to bottom left, #9286d8, #6b59ce);
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+p {
+  font-size: .90rem;
+  color: #dddddd;
+}

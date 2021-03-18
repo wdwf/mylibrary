@@ -1,20 +1,35 @@
-<div>
-  <h2>Cadastre um novo livro</h2>
-  <div>
-    <label for="">Numero de identificação</label>
-    <input type="text" [(ngModel)]='id'>
+<mat-card>
+
+  <h2>Cadastre um novo livro em sua coleção</h2>
+
+  <div class="container-input">
+    <mat-form-field>
+      <mat-label for="">Numero de identificação</mat-label>
+      <input type="text" pattern="[0-9]{4}" matInput [(ngModel)]='id' #idInput>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="">Titulo</mat-label>
+      <input type="text" matInput [(ngModel)]='titulo' #tituloInput>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="">Autor</mat-label>
+      <input type="text" matInput [(ngModel)]='autor' #autorInput>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="">Numero de paginas</mat-label>
+      <input type="text" matInput [(ngModel)]='Npages' pattern="[0-9]{4}" #NpagesInput>
+    </mat-form-field>
   </div>
-  <div>
-    <label for="">Titulo</label>
-    <input type="text" [(ngModel)]='titulo'>
-  </div>
-  <div>
-    <label for="">Autor</label>
-    <input type="text" [(ngModel)]='autor'>
-  </div>
-  <div>
-    <label for="">Numero de paginas</label>
-    <input type="text" [(ngModel)]='Npages'>
-  </div>
-  <button (click)="Cadastrar()" >Cadastrar</button>
-</div>
+
+  <button
+    (click)="onBookAdicionado()"
+    color="primary"
+    mat-raised-button
+  >
+    Cadastrar
+  </button>
+
+</mat-card>

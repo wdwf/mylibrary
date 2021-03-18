@@ -1,8 +1,17 @@
-<app-header></app-header>
+<div class="container-all">
+  <app-tool-bar></app-tool-bar>
 
-<app-input-book></app-input-book>
+  <app-header></app-header>
 
-<h2>Livros</h2>
+  <app-input-book
+    (bookAdicionado)="onBookAdicionado($event)"
+  ></app-input-book>
 
-<app-card-book></app-card-book>
+  <h2>Livros</h2>
 
+  <div class="card-container">
+    <app-card-book [colection]="colection"></app-card-book>
+  </div>
+
+
+</div>

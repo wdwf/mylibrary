@@ -1,14 +1,16 @@
-<div>
+<mat-accordion *ngIf="colection.length > 0">
 
-  <div>
+  <mat-expansion-panel *ngFor="let book of colection">
 
-    <h2> {{ titulo }} </h2>
-    <p>Autor:  </p>
-    <p>N° Indentificação: </p>
-    <p>N° de paginas: </p>
+    <mat-expansion-panel-header>{{ book.titulo }}</mat-expansion-panel-header>
+    <p>Autor: {{ book.autor }}</p>
+    <p>N° Indentificação: {{ book.id }}</p>
+    <p>N° de paginas: {{ book.Npages }}</p>
 
-  </div>
+  </mat-expansion-panel>
 
-  <div></div>
+</mat-accordion>
 
-</div>
+<p class="mat-body" *ngIf="colection.length <= 0">
+  Nenhum Book cadastrado
+</p>
