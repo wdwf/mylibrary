@@ -1,0 +1,30 @@
+import { Component, EventEmitter , Output } from '@angular/core';
+import { Book } from '../card-book/book.model';
+
+@Component({
+  selector: 'app-input-book',
+  templateUrl: './input-book.component.html',
+  styleUrls: ['./input-book.component.css']
+})
+export class InputBookComponent {
+
+  @Output() bookAdicionado = new EventEmitter<Book>();
+
+  id: string;
+  titulo: string;
+  autor: string;
+  Npages: string;
+
+  onBookAdicionado() {
+    const book: Book = {
+     id: this.id,
+     titulo: this.titulo,
+     autor: this.autor,
+     Npages: this.Npages,
+    };
+    this.bookAdicionado.emit(book);
+  }
+
+}
+
+Funciona da seguinte forma

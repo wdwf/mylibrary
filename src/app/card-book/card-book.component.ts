@@ -1,29 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Book } from '../card-book/book.model';
+import { BookService } from '../card-book/book.service';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-card-book',
   templateUrl: './card-book.component.html',
   styleUrls: ['./card-book.component.css']
 })
-export class CardBookComponent {
+export class CardBookComponent implements OnInit, OnDestroy {
 
-  @Input() colection: Book[] = [];
+  colection: Book[] = [];
+  private colectionsSubscription: Subscription;
 
-//Usado como teste para visualização
-// colection = [
-//   {
-//     id: "001",
-//     titulo: "Hercules",
-//     autor: "Jom",
-//     npages: "100"
-//   },
-//   {
-//     id: "002",
-//     titulo: "Folhas secas",
-//     autor: "Mari",
-//     npages: "150"
-//   },
-// ];
+  constructor(public bookService: BookService ) {}
+
+  ngOnDestroy(): void {
+    this.colectionsSubscription.unsubscribe();
+  }
+
+  ngOnInit(): void {
+    this.colection = this.bookService.getBooks();
+    this.colectionsSubscription = this.bookService
+    .getListaDeLivrosAtualizadaObservable()
+    .subscribe((colection: Book[]) => {
+      this.colection = colection;
+    });
+  }
 
 }

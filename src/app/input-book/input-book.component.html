@@ -2,34 +2,37 @@
 
   <h2>Cadastre um novo livro em sua coleção</h2>
 
-  <div class="container-input">
+  <form (submit)="onAdicionarBook(bookForm)" #bookForm="ngForm" class="container-input">
     <mat-form-field>
       <mat-label for="">Numero de identificação</mat-label>
-      <input type="text" pattern="[0-9]{4}" matInput [(ngModel)]='id' #idInput>
+      <input type="text" required minlength="4" pattern="[0-9]{4}" matInput ngModel name="id" #id="ngModel">
     </mat-form-field>
+    <!-- <mat-error *ngIf="id.invalid">Digite um nome válido</mat-error> -->
 
     <mat-form-field>
       <mat-label for="">Titulo</mat-label>
-      <input type="text" matInput [(ngModel)]='titulo' #tituloInput>
+      <input type="text" required matInput ngModel name="titulo" #titulo="ngModel">
     </mat-form-field>
+    <!-- <mat-error *ngIf="titulo.invalid">Digite um titulo válido</mat-error> -->
 
     <mat-form-field>
       <mat-label for="">Autor</mat-label>
-      <input type="text" matInput [(ngModel)]='autor' #autorInput>
+      <input type="text" required matInput ngModel name="autor" #autor="ngModel">
     </mat-form-field>
+    <!-- <mat-error *ngIf="autor.invalid">Digite um autor válido</mat-error> -->
 
     <mat-form-field>
       <mat-label for="">Numero de paginas</mat-label>
-      <input type="text" matInput [(ngModel)]='Npages' pattern="[0-9]{4}" #NpagesInput>
+      <input type="text" required matInput ngModel name="Npages" pattern="[0-9]{4}" #Npages="ngModel">
     </mat-form-field>
-  </div>
+    <!-- <mat-error *ngIf="Npages.invalid">Digite um numero válido de paginas</mat-error> -->
 
-  <button
-    (click)="onBookAdicionado()"
+    <button
     color="primary"
     mat-raised-button
   >
-    Cadastrar
+    Cadastrar Livro
   </button>
+  </form>
 
 </mat-card>
