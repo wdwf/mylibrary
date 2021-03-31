@@ -1,6 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +37,7 @@ import { BookService } from './card-book/book.service';
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
+    HttpClientModule,
   ],
   providers: [BookService],
   bootstrap: [AppComponent]

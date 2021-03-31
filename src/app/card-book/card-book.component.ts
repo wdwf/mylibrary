@@ -20,7 +20,7 @@ export class CardBookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.colection = this.bookService.getBooks();
+    this.bookService.getBooks();
     this.colectionsSubscription = this.bookService
     .getListaDeLivrosAtualizadaObservable()
     .subscribe((colection: Book[]) => {
