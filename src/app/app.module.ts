@@ -17,7 +17,7 @@ import { CardBookComponent } from './card-book/card-book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
 
-import { BookService } from './card-book/book.service';
+// import { BookService } from './card-book/book.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import { BookService } from './card-book/book.service';
     MatExpansionModule,
     HttpClientModule,
   ],
-  providers: [BookService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

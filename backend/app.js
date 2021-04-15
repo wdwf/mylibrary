@@ -1,23 +1,20 @@
 const express = require ('express');
 const app = express();
-const bodyParse = require('body-parser')
+const Livro = require('./models/livro');
+const mongoose = require('mongoose');
+const env = require('./env');
 
-app.use(bodyParse.json());
 
-const books = [
-  {
-    id: '1000',
-    title:'Harry Porter',
-    autor: 'Uma muie lá',
-    numberOfPages: 400,
-  },
-  {
-    id: '2',
-    title:'Harry Porter',
-    autor: 'Uma muie lá',
-    numberOfPages: 400,
-  }
-]
+mongoose.connect(`mongodb+srv://mongo:${env.mongoPassword}@cluster0.f6nhk.mongodb.net/db_livros?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {
+  console.log ("Conexão OK")
+}).catch((e) => {
+  console.log("Conexão NOK")
+  console.log(e);
+});
+
+
+app.use(express.json());
 
 app.use ((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', "*");
@@ -27,15 +24,22 @@ app.use ((req, res, next) => {
 });
 
 app.post ('/api/books', (req, res, next) => {
-  const book = req.body;
-  console.log(book);
+  const book = new Livro({
+    id: req.body.id,
+    titulo: req.body.titulo,
+    autor: req.body.autor,
+    Npages: req.body.Npages
+  })
+  book.save();
   res.status(201).json({mensagem: 'Livro inserido'})
 });
 
-app.use('/api/books',(req, res, next) => {
+app.get('/api/books',async (req, res, next) => {
+  const result = await Livro.find({})
+  console.log("teste");
   res.status(200).json({
     mensagem: "Tudo OK",
-    books
+    books: result
   });
 });
 

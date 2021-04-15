@@ -1,7 +1,11 @@
+import { Injectable } from '@angular/core';
 import { Book } from './book.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+@Injectable({
+  providedIn: "root"
+})
 
 export class BookService {
   private books: Book[] = [];
@@ -9,8 +13,7 @@ export class BookService {
 
   constructor (private httpClient: HttpClient){}
 
-  getBooks(): Book[] {
-    return [...this.books];
+  getBooks(): void {
     this.httpClient
       .get <{mensagem: string, books: Book[]}>(
         'http://localhost:3000/api/books'
