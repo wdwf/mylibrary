@@ -16,6 +16,8 @@ import { InputBookComponent } from './input-book/input-book.component';
 import { CardBookComponent } from './card-book/card-book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
+import { AppRoutingModule } from './app-routing.module';
+
 
 // import { BookService } from './card-book/book.service';
 
@@ -38,6 +40,7 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
     MatIconModule,
     MatExpansionModule,
     HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

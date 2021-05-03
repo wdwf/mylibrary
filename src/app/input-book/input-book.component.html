@@ -5,7 +5,7 @@
   <form (submit)="onAdicionarBook(bookForm)" #bookForm="ngForm" class="container-input">
     <mat-form-field>
       <mat-label for="">Numero de identificação</mat-label>
-      <input type="text" required minlength="4" pattern="[0-9]{4}" matInput ngModel name="id" #id="ngModel">
+      <input type="text" matInput ngModel name="id" #id="ngModel">
     </mat-form-field>
     <!-- <mat-error *ngIf="id.invalid">Digite um nome válido</mat-error> -->
 
@@ -23,7 +23,7 @@
 
     <mat-form-field>
       <mat-label for="">Numero de paginas</mat-label>
-      <input type="text" required matInput ngModel name="Npages" pattern="[0-9]{4}" #Npages="ngModel">
+      <input type="text" required matInput ngModel name="Npages" pattern="[0-9]{3}" #Npages="ngModel">
     </mat-form-field>
     <!-- <mat-error *ngIf="Npages.invalid">Digite um numero válido de paginas</mat-error> -->
 

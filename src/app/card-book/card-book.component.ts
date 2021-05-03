@@ -28,4 +28,8 @@ export class CardBookComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDelete (id: string): void{
+    this.bookService.removerBook(id);
+   }
+
 }
