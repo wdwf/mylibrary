@@ -1,4 +1,5 @@
-<mat-accordion *ngIf="colection.length > 0">
+<mat-spinner *ngIf="estaCarregando"></mat-spinner>
+<mat-accordion *ngIf="colection.length > 0 && !estaCarregando">
 
   <mat-expansion-panel *ngFor="let book of colection">
 
@@ -8,7 +9,7 @@
     <p>N° de paginas: {{ book.Npages }}</p>
 
     <mat-action-row>
-      <button mat-button color="primary">EDITAR</button>
+      <a mat-button color="primary" [routerLink]="['/editar', book.id]">EDITAR</a>
       <button mat-button color="warn" (click)="onDelete(book.id)">REMOVER</button>
     </mat-action-row>
 
@@ -16,6 +17,6 @@
 
 </mat-accordion>
 
-<p class="mat-body" *ngIf="colection.length <= 0">
+<p class="mat-body" *ngIf="colection.length <= 0 && !estaCarregando">
   Nenhum Book cadastrado
 </p>

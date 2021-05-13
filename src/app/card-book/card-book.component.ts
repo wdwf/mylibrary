@@ -12,6 +12,7 @@ export class CardBookComponent implements OnInit, OnDestroy {
 
   colection: Book[] = [];
   private colectionsSubscription: Subscription;
+  public estaCarregando = false;
 
   constructor(public bookService: BookService ) {}
 
@@ -20,10 +21,12 @@ export class CardBookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.estaCarregando = true;
     this.bookService.getBooks();
     this.colectionsSubscription = this.bookService
     .getListaDeLivrosAtualizadaObservable()
     .subscribe((colection: Book[]) => {
+      this.estaCarregando = false;
       this.colection = colection;
     });
   }

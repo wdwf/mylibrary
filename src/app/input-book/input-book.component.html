@@ -1,37 +1,42 @@
 <mat-card>
-
+  <mat-spinner *ngIf="estaCarregando"></mat-spinner>
   <h2>Cadastre um novo livro em sua coleção</h2>
 
-  <form (submit)="onAdicionarBook(bookForm)" #bookForm="ngForm" class="container-input">
-    <mat-form-field>
+  <form [formGroup]="form" (submit)="onSaveBook()" *ngIf="!estaCarregando" class="container-input">
+    <!-- <mat-form-field>
       <mat-label for="">Numero de identificação</mat-label>
-      <input type="text" matInput ngModel name="id" #id="ngModel">
-    </mat-form-field>
+      <input type="text" matInput name="id">
+    </mat-form-field> -->
     <!-- <mat-error *ngIf="id.invalid">Digite um nome válido</mat-error> -->
+
+    <div>
+      <button mat-stroked-button type="button" (click)="selecionaArquivo.click()">Selecionar Imagem</button>
+      <input type="file" #selecionaArquivo>
+    </div>
 
     <mat-form-field>
       <mat-label for="">Titulo</mat-label>
-      <input type="text" required matInput ngModel name="titulo" #titulo="ngModel">
+      <input type="text" required matInput name="titulo" formControlName="titulo">
     </mat-form-field>
     <!-- <mat-error *ngIf="titulo.invalid">Digite um titulo válido</mat-error> -->
 
     <mat-form-field>
       <mat-label for="">Autor</mat-label>
-      <input type="text" required matInput ngModel name="autor" #autor="ngModel">
+      <input type="text" required matInput name="autor" formControlName="autor">
     </mat-form-field>
     <!-- <mat-error *ngIf="autor.invalid">Digite um autor válido</mat-error> -->
 
     <mat-form-field>
       <mat-label for="">Numero de paginas</mat-label>
-      <input type="text" required matInput ngModel name="Npages" pattern="[0-9]{3}" #Npages="ngModel">
+      <input type="text" required matInput name="Npages" pattern="[0-9]{3}" formControlName="Npages">
     </mat-form-field>
     <!-- <mat-error *ngIf="Npages.invalid">Digite um numero válido de paginas</mat-error> -->
 
     <button
-    color="primary"
+    color="accent"
     mat-raised-button
   >
-    Cadastrar Livro
+    Salvar Livro
   </button>
   </form>
 

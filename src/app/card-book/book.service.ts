@@ -3,6 +3,7 @@ import { Book } from './book.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -13,26 +14,44 @@ export class BookService {
   private books: Book[] = [];
   private listaBooksAtualizada = new Subject<Book[]>();
 
-  constructor (private httpClient: HttpClient){}
+  constructor (private httpClient: HttpClient, private router: Router){}
+
+  getBook (idBook:string) {
+    // return {...this.books.find((bok) => bok.id === idBook)};
+    return this.httpClient.get<{_id: string, titulo: string, autor: string, Npages: string}>(`http://localhost:3000/api/books/${idBook}`);
+  }
 
   getBooks(): void {
     this.httpClient
-      .get <{mensagem: string, books: any}>(
-        'http://localhost:3000/api/books'
-      ).pipe(map((dados) => {
-        return dados.books.map(livro => {
-          return {
-            id: livro._id,
-            titulo: livro.titulo,
-            autor: livro.autor,
-            Npages: livro.Npages
-          }
-        })
-      }))
-      .subscribe((books) => {
-        this.books = books;
-        this.listaBooksAtualizada.next([...this.books]);
+    .get <{mensagem: string, books: any}>(
+      'http://localhost:3000/api/books'
+    ).pipe(map((dados) => {
+      return dados.books.map(livro => {
+        return {
+          id: livro._id,
+          titulo: livro.titulo,
+          autor: livro.autor,
+          Npages: livro.Npages
+        }
       })
+    }))
+    .subscribe((books) => {
+      this.books = books;
+      this.listaBooksAtualizada.next([...this.books]);
+    })
+  }
+
+  updateBook (id: string, titulo: string, autor: string, Npages: string) {
+    const book: Book = { id, titulo, autor, Npages };
+    this.httpClient.put(`http://localhost:3000/api/books/${id}`, book)
+    .subscribe((res => {
+      const copia = [...this.books];
+      const indice = copia.findIndex (bok => bok.id === book.id);
+      copia[indice] = book;
+      this.books = copia;
+      this.listaBooksAtualizada.next([...this.books]);
+      this.router.navigate(['/'])
+    }));
   }
 
   adicionarBook(titulo: string, autor: string, Npages: string) {
@@ -47,6 +66,7 @@ export class BookService {
       book.id = dados.id;
       this.books.push (book);
       this.listaBooksAtualizada.next ([...this.books]);
+      this.router.navigate(['/'])
     });
   }
 
