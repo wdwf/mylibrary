@@ -3,4 +3,5 @@ export interface Book {
   titulo: string;
   autor: string;
   Npages: string;
+  imagemURL: string;
 }

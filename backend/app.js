@@ -1,3 +1,4 @@
+const path = require ('path');
 const express = require ('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -16,6 +17,8 @@ mongoose.connect(`mongodb+srv://angular:${env.mongoPassword}@cluster0.djhgu.mong
 
 
 app.use(express.json());
+
+app.use('/imagens', express.static(path.join("backend/imagens")));
 
 app.use ((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', "*");
