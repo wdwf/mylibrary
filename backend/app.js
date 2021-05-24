@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const env = require('./env');
 const livroRoutes = require('./rotas/livros');
+const usuarioRoutes = require ('./rotas/usuarios');
 
 
 
@@ -28,5 +29,6 @@ app.use ((req, res, next) => {
 });
 
 app.use('/api/books',livroRoutes);
+app.use('/api/usuarios', usuarioRoutes)
 
 module.exports = app;

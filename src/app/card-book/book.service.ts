@@ -11,22 +11,20 @@ import { Router } from '@angular/router';
 })
 
 export class BookService {
+  private listaBooksAtualizada = new Subject<{books: Book[], maxBooks: number}>();
   private books: Book[] = [];
-  private listaBooksAtualizada = new Subject<Book[]>();
 
   constructor (private httpClient: HttpClient, private router: Router){}
 
-  getBook (idBook:string) {
-    // return {...this.books.find((bok) => bok.id === idBook)};
-    return this.httpClient.get<{_id: string, titulo: string, autor: string, Npages: string}>(`http://localhost:3000/api/books/${idBook}`);
-  }
 
-  getBooks(): void {
+  getBooks( pagesize: number, page: number ): void {
+    const parametros = `?pagesize=${pagesize}&page=${page}`;
     this.httpClient
-    .get <{mensagem: string, books: any}>(
-      'http://localhost:3000/api/books'
-    ).pipe(map((dados) => {
-      return dados.books.map(livro => {
+    .get <{mensagem: string, books: any, maxBooks: number}>(
+      'http://localhost:3000/api/books' + parametros)
+      .pipe(map((dados) => {
+      return {
+        books: dados.books.map(livro => {
         return {
           id: livro._id,
           titulo: livro.titulo,
@@ -34,23 +32,43 @@ export class BookService {
           Npages: livro.Npages,
           imagemURL: livro.imagemURL
         }
-      })
+      }),
+        maxBooks: dados.maxBooks
+      }
     }))
-    .subscribe((books) => {
-      this.books = books;
-      this.listaBooksAtualizada.next([...this.books]);
+    .subscribe((dados) => {
+      this.books = dados.books;
+      this.listaBooksAtualizada.next(
+        {
+          books: [...this.books],
+          maxBooks: dados.maxBooks
+        }
+      );
     })
   }
 
-  updateBook (id: string, titulo: string, autor: string, Npages: string) {
-    const book: Book = { id, titulo, autor, Npages, imagemURL: null };
-    this.httpClient.put(`http://localhost:3000/api/books/${id}`, book)
+  updateBook (id: string, titulo: string, autor: string, Npages: string, imagem: File | string) {
+    //const book: Book = { id, titulo, autor, Npages, imagemURL: null };
+    let bookData: Book | FormData;
+    if(typeof(imagem) === 'object') {
+      bookData = new FormData();
+      bookData.append("id", id);
+      bookData.append('titulo', titulo);
+      bookData.append('autor', autor);
+      bookData.append("Npages", Npages);
+      bookData.append('imagem', imagem, titulo);
+    } else {
+      bookData = {
+        id: id,
+        titulo: titulo,
+        autor: autor,
+        Npages: Npages,
+        imagemURL: imagem
+      }
+    }
+    console.log (typeof(bookData));
+    this.httpClient.put(`http://localhost:3000/api/books/${id}`, bookData)
     .subscribe((res => {
-      const copia = [...this.books];
-      const indice = copia.findIndex (bok => bok.id === book.id);
-      copia[indice] = book;
-      this.books = copia;
-      this.listaBooksAtualizada.next([...this.books]);
       this.router.navigate(['/'])
     }));
   }
@@ -68,19 +86,8 @@ export class BookService {
     dadosBook.append("Npages", Npages);
     dadosBook.append("imagem", imagem);
 
-    this.httpClient.post<{mensagem: string, book: Book}> ('http://localhost:3000/api/books', dadosBook).subscribe(
-      (dados) => {
-      // console.log (dados.mensagem);
-      // book.id = dados.id;
-      const book: Book = {
-        id: dados.book.id,
-        titulo: titulo,
-        autor: autor,
-        Npages: Npages,
-        imagemURL: dados.book.imagemURL
-      };
-      this.books.push (book);
-      this.listaBooksAtualizada.next ([...this.books]);
+    this.httpClient.post<{mensagem: string, book: Book}> ('http://localhost:3000/api/books', dadosBook)
+    .subscribe((dados) => {
       this.router.navigate(['/'])
     });
   }
@@ -89,12 +96,11 @@ export class BookService {
     return this.listaBooksAtualizada.asObservable();
   }
 
-  removerBook (id: string): void{
-    this.httpClient.delete(`http://localhost:3000/api/books/${id}`).subscribe(() => {
-    this.books = this.books.filter((liv) => {
-      return liv.id !== id;
-    });
-    this.listaBooksAtualizada.next([...this.books]);
-    });
+  removerBook (id: string){
+    return this.httpClient.delete(`http://localhost:3000/api/books/${id}`);
+  }
+
+  getBook (idBook:string) {
+    return this.httpClient.get<{_id: string, titulo: string, autor: string, Npages: string, imagemURL: string}>(`http://localhost:3000/api/books/${idBook}`);
   }
 }

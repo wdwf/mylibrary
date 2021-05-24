@@ -19,6 +19,13 @@
   </mat-expansion-panel>
 
 </mat-accordion>
+<mat-paginator
+*ngIf="colection.length > 0"
+[length]="totalDeLivros"
+[pageSize]="totalDeLivrosPorPagina"
+[pageSizeOptions]="opcoesTotalDeLivrosPorPagina"
+(page)="onPaginaAlterada($event)"
+></mat-paginator>
 
 <p class="mat-body" *ngIf="colection.length <= 0 && !estaCarregando">
   Nenhum Book cadastrado

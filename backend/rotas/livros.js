@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require ("multer");
+const { count } = require("../models/livro");
 const router = express.Router();
 const Livro = require('../models/livro');
 
@@ -56,12 +57,27 @@ router.post ('', multer({storage: armazenamento}).single('imagem'), (req, res, n
 });
 
 router.get('',async (req, res, next) => {
-  const result = await Livro.find({})
-  console.log(result);
-  res.status(200).json({
-    mensagem: "Tudo OK",
-    books: result
-  });
+  const pageSize = +req.query.pagesize;
+  const page = +req.query.page;
+  const consulta = Livro.find();//só executa quando chamamos then
+  let booksFound;
+  if (pageSize && page){
+  consulta
+  .skip(pageSize * (page - 1))
+  .limit(pageSize);
+  }
+
+  consulta.then(result =>  {
+    booksFound = result;
+    return Livro.count();
+  })
+    .then((count) => {
+      res.status(200).json({
+        mensagem: "Tudo OK",
+        books: booksFound,
+        maxBooks: count
+      });
+  })
 });
 
 router.delete ('/:id', (req, res, next) => {
@@ -72,13 +88,19 @@ router.delete ('/:id', (req, res, next) => {
   });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id", multer({ storage: armazenamento }).single('imagem'), (req, res, next) => {
+  console.log (req.file);
+  let imagemURL = req.body.imagemURL;
+  if (req.file) {
+    const url = req.protocol + "://" + req.get("host");
+    imagemURL = url + "/imagens/" + req.file.filename;
+  }
   const book = new Livro ({
     _id: req.params.id,
     titulo: req.body.titulo,
     autor: req.body.autor,
     Npages: req.body.Npages,
-    // imagemURL: req.body.imagemURL
+    imagemURL: imagemURL
     //imgens
   });
   Livro.updateOne({_id: req.params.id}, book)

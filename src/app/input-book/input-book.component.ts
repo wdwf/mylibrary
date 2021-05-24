@@ -39,6 +39,7 @@ export class InputBookComponent implements OnInit {
         this.form.value.titulo,
         this.form.value.autor,
         this.form.value.Npages,
+        this.form.value.imagem
       )
     }
 
@@ -77,12 +78,13 @@ export class InputBookComponent implements OnInit {
             titulo: dadosBok.titulo,
             autor: dadosBok.autor,
             Npages: dadosBok.Npages,
-            imagemURL: null
+            imagemURL: dadosBok.imagemURL
           };
           this.form.setValue({
             titulo: this.book.titulo,
             autor: this.book.autor,
-            Npages: this.book.Npages
+            Npages: this.book.Npages,
+            imagem: this.book.imagemURL
           })
         });
       }

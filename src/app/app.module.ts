@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +21,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 
 // import { BookService } from './card-book/book.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +32,14 @@ import { AppRoutingModule } from './app-routing.module';
     InputBookComponent,
     CardBookComponent,
     ToolBarComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FormsModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -43,6 +49,7 @@ import { AppRoutingModule } from './app-routing.module';
     HttpClientModule,
     AppRoutingModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
