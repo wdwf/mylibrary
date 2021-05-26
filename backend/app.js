@@ -29,6 +29,6 @@ app.use ((req, res, next) => {
 });
 
 app.use('/api/books',livroRoutes);
-app.use('/api/usuarios', usuarioRoutes)
+app.use('/api/usuario', usuarioRoutes)
 
 module.exports = app;
